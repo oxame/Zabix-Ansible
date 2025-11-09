@@ -44,22 +44,26 @@
   when:
     - zabbix_websrv == 'apache'
 
-- include_tasks: apache.yml
+- include_tasks:
+    file: apache.yml
   when:
     - zabbix_websrv == 'apache'
 
-- include_tasks: nginx.yml
+- include_tasks:
+    file: nginx.yml
   when:
     - zabbix_websrv == 'nginx'
 
 - name: "Install the correct repository"
-  include_tasks: "RedHat.yml"
+  include_tasks:
+    file: RedHat.yml
   when: ansible_os_family == "RedHat"
   tags:
     - zabbix-web
 
 - name: "Install the correct repository"
-  include_tasks: "Debian.yml"
+  include_tasks:
+    file: Debian.yml
   when: ansible_os_family == "Debian"
   tags:
     - zabbix-web
