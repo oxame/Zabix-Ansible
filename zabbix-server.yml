@@ -8,8 +8,6 @@
 - name: Installing Zabbix
   hosts: zabbix_server
   become: true
-  collections:
-    - community.zabbix
 
   roles:
     - role: zabbix_server
