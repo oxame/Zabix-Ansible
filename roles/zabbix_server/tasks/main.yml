@@ -36,10 +36,29 @@
     - init
     - config
 
-- name: "Add zabbix-server scripts"
-  include_tasks: "scripts.yml"
-  when: ( zabbix_server_alertscripts is defined ) or
-        ( zabbix_server_externalscripts is defined )
+- name: "Configure zabbix-server alertscripts"
+  template:
+    src: "{{ item.path }}"
+    dest: "{{ zabbix_server_alertscriptspath }}/{{ item.name }}"
+    owner: zabbix
+    group: zabbix
+    mode: "0755"
+  loop: "{{ zabbix_server_alertscripts }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: zabbix_server_alertscripts is defined
+
+- name: "Configure zabbix-server externalscripts"
+  template:
+    src: "{{ item.path }}"
+    dest: "{{ zabbix_server_externalscriptspath }}/{{ item.name }}"
+    owner: zabbix
+    group: zabbix
+    mode: "0755"
+  loop: "{{ zabbix_server_externalscripts }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: zabbix_server_externalscripts is defined
 
 - name: "Zabbix-server started"
   service:
